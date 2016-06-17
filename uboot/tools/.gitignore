@@ -9,4 +9,4 @@
 /gen_eth_addr
 /img2srec
 /mkimage
-/combineimage
+# /combineimage
