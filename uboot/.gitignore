@@ -54,7 +54,7 @@ bl2*
 /System.map
 /Module.markers
 /Module.symvers
-
+/sourceinsight
 #
 # git files that we don't want to ignore even it they are dot-files
 #
@@ -79,8 +79,8 @@ include/autoconf.mk
 include/autoconf.mk.dep
 include/config.h
 include/config.mk
-arch/arm/include/asm/arch
-arch/arm/include/asm/proc
+#arch/arm/include/asm/arch
+#arch/arm/include/asm/proc
 
 # stgit generated dirs
 patches-*
