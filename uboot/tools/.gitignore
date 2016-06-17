@@ -1,0 +1,12 @@
+#
+# Normal rules
+#
+*~
+
+#
+# Top-level generic files
+#
+/gen_eth_addr
+/img2srec
+/mkimage
+/combineimage
