@@ -171,7 +171,7 @@ int cmd_usage(cmd_tbl_t *cmdtp)
 
 int var_complete(int argc, char * const argv[], char last_char, int maxv, char *cmdv[])
 {
-#if 0 /* need to reimplement */
+#if 1 /* need to reimplement */
 	static char tmp_buf[512];
 	int space;
 

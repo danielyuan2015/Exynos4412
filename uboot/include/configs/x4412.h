@@ -28,6 +28,14 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
+#define DBG_ON
+#ifdef DBG_ON
+//#define debug(fmt,args...)	printf (fmt ,##args)
+#define UBOOT_DBG(format,args...) printf(format, ##args)
+#else
+#define UBOOT_DBG(format,...)
+#endif
+
 /*
  * High Level Configuration Options
  * (easy to change)

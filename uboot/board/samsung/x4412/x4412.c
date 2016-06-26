@@ -27,17 +27,18 @@ unsigned int second_boot_info = 0xffffffff;
 #define SMC9115_Tcos	(0x4)	// 4clk		chip selection set-up
 #define SMC9115_Tacc	(0xe)	// 14clk	access cycle
 #define SMC9115_Tcoh	(0x1)	// 1clk		chip selection hold
-#define SMC9115_Tah	(0x4)	// 4clk		address holding time
+#define SMC9115_Tah		(0x4)	// 4clk		address holding time
 #define SMC9115_Tacp	(0x6)	// 6clk		page mode access cycle
-#define SMC9115_PMC	(0x0)	// normal(1data)page mode configuration
+#define SMC9115_PMC		(0x0)	// normal(1data)page mode configuration
 
 #define SROM_DATA16_WIDTH(x)	(1<<((x*4)+0))
-#define SROM_WAIT_ENABLE(x)	(1<<((x*4)+1))
-#define SROM_BYTE_ENABLE(x)	(1<<((x*4)+2))
+#define SROM_WAIT_ENABLE(x)		(1<<((x*4)+1))
+#define SROM_BYTE_ENABLE(x)		(1<<((x*4)+2))
 
 /*
  * Miscellaneous platform dependent initialisations
  */
+#ifdef CONFIG_SMC911X
 static void smc9115_pre_init(void)
 {
         unsigned int cs1;
@@ -70,7 +71,7 @@ static void smc9115_pre_init(void)
 		     (0x1 << 24) |
 		     (0x1 << 28) );
 }
-
+#endif
 
 //#define S3C_ADDR_BASE	0xF6000000
 //#ifndef haha//__ASSEMBLY__
@@ -184,10 +185,25 @@ static void dm9000_pre_init(void)
 		     (0x1 << S5P_SROM_BCX__TACS__SHIFT), S5P_SROM_BC3);		     
 }
 
+static void led_init(void)
+{
+	GPIO_SetFunctionEach(eGPIO_X1, eGPIO_6, 1);//set as output
+	GPIO_SetFunctionEach(eGPIO_X1, eGPIO_7, 1);
+	GPIO_SetFunctionEach(eGPIO_X2, eGPIO_6, 1);//set as output
+	GPIO_SetFunctionEach(eGPIO_X2, eGPIO_7, 1);
+	GPIO_SetDataEach(eGPIO_X1,eGPIO_6,1); //set high
+	GPIO_SetDataEach(eGPIO_X1,eGPIO_7,0); //set low
+	GPIO_SetDataEach(eGPIO_X2,eGPIO_6,1); //set high
+	GPIO_SetDataEach(eGPIO_X2,eGPIO_7,0); //set low
+
+}
+
 int board_init(void)
 {
 	char bl1_version[9] = {0};
 
+	UBOOT_DBG("hello world #3\r\n");
+	
 	/* display BL1 version */
 #ifdef CONFIG_TRUSTZONE
 	printf("TrustZone Enabled BSP\n");
@@ -297,10 +313,11 @@ int force_update_flag = 0;
 int board_late_init (void)
 {
 	x4412_framebuffer_init();
-	
-	GPIO_Init();
-	GPIO_SetFunctionEach(eGPIO_X1, eGPIO_0, 0);
-	GPIO_SetPullUpDownEach(eGPIO_X1, eGPIO_0, 0);
+	GPIO_Init();	
+	led_init();
+#if 1	
+	GPIO_SetFunctionEach(eGPIO_X1, eGPIO_0, 0); //set as input
+	GPIO_SetPullUpDownEach(eGPIO_X1, eGPIO_0, 0); //disable pull-up and pull down
 
 	udelay(10);
 	if (GPIO_GetDataEach(eGPIO_X1, eGPIO_0) == 0)
@@ -308,6 +325,7 @@ int board_late_init (void)
 		printf("[LEFT KEY] pressed, force update\r\n");
 		force_update_flag = 1;
 	}
+#endif
 	return 0;
 }
 

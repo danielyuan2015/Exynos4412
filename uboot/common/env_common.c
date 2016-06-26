@@ -246,7 +246,7 @@ void env_relocate (void)
 	}
 }
 
-#if 0 /* need to reimplement - def CONFIG_AUTO_COMPLETE */
+#if 1 /* need to reimplement - def CONFIG_AUTO_COMPLETE */
 int env_complete(char *var, int maxv, char *cmdv[], int bufsz, char *buf)
 {
 	int i, nxt, len, vallen, found;
