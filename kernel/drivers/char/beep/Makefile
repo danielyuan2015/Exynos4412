@@ -1,0 +1,1 @@
+obj-$(CONFIG_X4412_BEEP_DRIVER) += x4412-beep.o

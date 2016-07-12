@@ -1,0 +1,6 @@
+config X4412_BEEP_DRIVER
+	bool "X4412 beep driver"
+	default y
+	help
+	compile for leddriver,y for kernel,m for module.
+
